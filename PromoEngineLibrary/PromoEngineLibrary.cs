@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PromoEngineLibrary.Entity;
@@ -27,7 +28,34 @@ namespace PromoEngineLibrary
         {
             int unitPrice = 0;
             //calculate Unit Price
+            string promoType = string.Empty;
 
+            foreach (SKUInputClass skuCls in sKUInputClass)
+            {
+                //SkuDataItem obj= root.skuData.Where(s => s.id == skuCls.Id);//returns price of one item
+                var priceUnit = root.skuData.Where(s => s.id == skuCls.Id)
+                               .Select(s => s.price).FirstOrDefault();//returns price of one item
+                var obj = root.skuData.Where(s => s.id == skuCls.Id).FirstOrDefault();
+
+                SkuDataItem skuDataItem = (SkuDataItem)obj;
+
+                if (skuCls.Count == 1)//count is just one, assign actual price
+                {
+                    unitPrice += Convert.ToInt32(skuDataItem.price);
+                }
+                else if (skuDataItem.isOfferApplicable)//check if offer exists
+                {
+                    if (skuCls.Count == skuDataItem.offer.count)//offer count matches the input count, assign offerprice
+                    {
+                        unitPrice += skuDataItem.offer.offerPrice;
+                    }
+                    else if (skuCls.Count < skuDataItem.offer.count)// offer count not matching, take orginal price
+                    {
+                        unitPrice += Convert.ToInt32(skuDataItem.price) * skuCls.Count;
+                    }
+                }
+                
+            }
             return unitPrice;
         }
 
