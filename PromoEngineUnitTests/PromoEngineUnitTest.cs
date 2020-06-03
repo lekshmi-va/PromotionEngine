@@ -80,7 +80,7 @@ namespace PromoEngineUnitTests
 
         }
 
-        [Test]//ScenarioC A*3, B*5, C*1, D*1 - return - 280
+       // [Test]//ScenarioC A*3, B*5, C*1, D*1 - return - 280
         public void SKU_Offer_ScenarioC()
         {
             //Assign

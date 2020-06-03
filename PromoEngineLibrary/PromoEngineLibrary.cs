@@ -49,12 +49,26 @@ namespace PromoEngineLibrary
                     {
                         unitPrice += skuDataItem.offer.offerPrice;
                     }
-                    else if (skuCls.Count < skuDataItem.offer.count)// offer count not matching, take orginal price
+                    else if (skuCls.Count < skuDataItem.offer.count)// offer count is high, take orginal price
                     {
                         unitPrice += Convert.ToInt32(skuDataItem.price) * skuCls.Count;
                     }
+                    else if ((skuCls.Count % skuDataItem.offer.count) == 0)// input count is disivible by offercount, no balance
+                    {
+                        int offerNum = skuCls.Count / skuDataItem.offer.count;//divide and take the actual number
+                        unitPrice += offerNum * skuDataItem.offer.offerPrice;//multiply with the price and assign
+                    }
+                    else if (!((skuCls.Count % skuDataItem.offer.count) == 0))// calculate the balance as well
+                    {
+                        int offerNum = skuCls.Count / skuDataItem.offer.count;//divide and take the actual number
+                        unitPrice += offerNum * skuDataItem.offer.offerPrice;//multiply with the price and assign
+
+                        int balance = skuCls.Count - (offerNum * skuDataItem.offer.count);// calculate the balance here
+                        unitPrice += balance * Convert.ToInt32(skuDataItem.price);//multiply with the price and assign
+                    }
                 }
-                
+
+
             }
             return unitPrice;
         }
