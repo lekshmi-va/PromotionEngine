@@ -32,6 +32,13 @@
   <ItemGroup>
     <Compile Include="PromoEngineLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entity\Offer.cs" />
+    <Compile Include="Entity\Root.cs" />
+    <Compile Include="Entity\SKUInputClass.cs" />
+    <Compile Include="Entity\SkuDataItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entity\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
